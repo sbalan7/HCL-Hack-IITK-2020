@@ -79,4 +79,5 @@ for part in dynamic_root:
             dataline = dynamic_data_extract(path)
             df = pd.concat([df, dataline])
 
+df.to_csv('dynamic_dataframe.csv')
 
