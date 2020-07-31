@@ -1,16 +1,11 @@
 import pandas as pd
-from sklearn.metrics import plot_confusion_matrix, accuracy_score
 import pickle
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import plot_confusion_matrix
-import matplotlib.pyplot as plt
 import numpy as np
-import time
 import xgboost as xgb
 from xgboost import XGBClassifier
 from sklearn.model_selection import GridSearchCV
-
 
 def get_data():
   # Gets data from a csv file. The csv files were
@@ -40,11 +35,18 @@ def get_data():
 
   return data
 
-data = get_data()
+# Function called only once when data was being prepared initially
+# data = get_data()
+# Writes all the static data to a csv file
+# data.to_csv("Data.csv")
+
+data = pd.read_csv("Data.csv")
 
 # Drops Hash column and a redundant index column
-data = data.drop(['name', 'Unnamed: 0'], axis=1)
+data = data.drop(['name', 'Unnamed: 0', 'Name:'], axis=1)
 
+# Using a labelencoder to transform
+# string values to numbers
 le = LabelEncoder()
 X = data.drop(['target'], axis=1)
 y = data['target']
@@ -61,14 +63,14 @@ X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2)
 xgb_model = xgb.XGBClassifier()
 
 # Setting parameters for gridsearch
-parameters = {'nthread':[4], #when use hyperthread, xgboost may become slower
+parameters = {'nthread':[4], 
               'objective':['binary:logistic'],
-              'learning_rate': [0.05], #so called `eta` value
+              'learning_rate': [0.05], 
               'max_depth': [6],
               'silent': [1],
               'subsample': [0.8],
               'colsample_bytree': [0.7],
-              'n_estimators': [1000], #number of trees, change it to 1000 for better results
+              'n_estimators': [1000], #number of trees
               'seed': [42],
               'gamma': [1]}
 
@@ -76,10 +78,9 @@ parameters = {'nthread':[4], #when use hyperthread, xgboost may become slower
 # AUC as the scoring criterion and binary:logistic objective
 # function.
 clf = GridSearchCV(xgb_model, parameters, n_jobs=5, 
-                    # cv=(X_valid, y_valid), 
                    scoring='roc_auc',
                    verbose=2, refit=True)
 
 clf.fit(X_train, y_train)
 
-pickle.dump(clf, open("model_gridsearch.sav", 'wb'))
+pickle.dump(clf, open("static_model.pkl", 'wb'))

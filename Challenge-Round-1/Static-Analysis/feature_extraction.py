@@ -8,26 +8,12 @@ def check_name(vals):
 	# Deletes all names from given dataframe
 	# where Names in headers are hexadecimal numbers
     # because names were of kind [".txt", ".*", "0x4000" ...]
-
 	newlist = []
-	try:
-		vals = vals[1:-1]
-	except TypeError as e:
-		print(f"TypeError at value {vals}")
-		return None
-	vals = vals[1:-1]
-	vals = "".join(vals.split("'"))
-	vals = vals.split(", ")
 	for val in vals:
 		if val[0] == ".":
 			newlist.append(val)
 
 	return newlist
-
-#Function call to replace name column
-# df = pd.read_csv("Static_Analysis_Data-Malware-EngineeredFeatures.csv")
-# df["Name:"] = df["Name:"].apply(check_name)
-# df.to_csv("Static_Analysis_Data-Malware-EngineeredFeatures2.csv")
 
 def check_if_day_or_month(str):
 	# Checks if a string is a day or a month
@@ -51,7 +37,7 @@ def useful_words(path):
 	words = []
 
 	try:
-		file1 = open(path)
+		file1 = open(path, encoding='latin-1')
 		fcontent = file1.readlines()
 	except (UnicodeDecodeError, OSError):
 		return None
@@ -163,43 +149,11 @@ def create_common_words_data(common_words, label = "Malware"):
 
 		return all_data
 
-# print("Finding most common words in Benign folder")
-# most_occur = most_common_words("Benign")
-# df = pd.DataFrame(dict(most_occur), index=[0])
-# print("Writing to DataFrame")
-# df.to_csv("MostCommonWords-Benign.csv")
-
-# print("Finding most common words in Malware folder")
-# most_occur = most_common_words("Malware")
-# df = pd.DataFrame(dict(most_occur), index = [0])
-# print("Writing to DataFrame")
-# df.to_csv("MostCommonWords-Malware.csv")
-
-# df = pd.read_csv("MostCommonWords-Benign.csv")
-# df.drop("Unnamed: 0", inplace=True, axis=1)
-# common_words_benign = list(df.columns)
-
-# df = pd.read_csv("MostCommonWords-Malware.csv")
-# df.drop("Unnamed: 0", inplace=True, axis=1)
-# common_words_malware = list(df.columns)
-
-# common_words = common_words_malware + common_words_benign
-
-# print("Creating feature vector in Benign folder")
-# datab = create_common_words_data(label="Benign", common_words=common_words)
-# dfb = pd.DataFrame(datab)
-# dfb.to_csv("CommonWords-Benign.csv")
-
-# print("Creating feature vector in Malware folder")
-# datam = create_common_words_data(common_words=common_words)
-# dfm = pd.DataFrame(datam)
-# dfm.to_csv("CommonWords-Malware.csv")
-
 def parse_single_example(path, raw_features, data):
 	# Takes a single filepath and returns a dictionary of raw feature and values. 
 	# No derived feature logic here.
 	try:
-		file1 = open(path)
+		file1 = open(path, encoding='latin-1')
 		fcontent = file1.readlines()
 	except UnicodeDecodeError as e:
 		return None
@@ -218,7 +172,7 @@ def parse_eng_example(path, raw_features, data):
 	# Takes a single filepath and returns a dictionary of raw feature and values. 
 	# No derived feature logic here.
 	try:
-		file1 = open(path)
+		file1 = open(path, encoding='latin-1')
 		fcontent = file1.readlines()
 	except UnicodeDecodeError as e:
 		return None
@@ -239,7 +193,7 @@ def parse_eng_example(path, raw_features, data):
 					break
 				else:
 					data[feat].append(line[-1])
-                break
+				break
 
 	return data
 
@@ -248,11 +202,6 @@ def proc_raw_features(raw_features):
 	raw_features = ": ".join(raw_features.split(','))
 	raw_features = raw_features.split()
 	return raw_features
-
-raw_features = "e_cblp, e_cp, e_cparhdr, e_maxalloc, e_sp, e_lfanew, NumberOfSections, MajorLinkerVersion, MinorLinkerVersion, SizeOfCode,SizeOfInitializedData, SizeOfUninitializedData,AddressOfEntryPoint, BaseOfCode, BaseOfData,MajorOperatingSystemVersion, MinorOperatingSystemVersion,MajorImageVersion, MinorImageVersion, CheckSum,MajorSubsystemVersion, MinorSubsystemVersion,Subsystem,SizeOfStackReserve, SizeOfStackCommit, SizeOfHeapReserve,SizeOfHeapCommit, LoaderFlags"
-
-# Preprocess raw_features
-raw_features = proc_raw_features(raw_features)
 
 def create_data(label="Malware"):
     if label == "Benign":
@@ -307,7 +256,7 @@ def get_entropy(path):
     # and returns the average entropy value for the
     # file specified in path arguement.	
 	try:
-		file1 = open(path)
+		file1 = open(path, encoding='latin-1')
 		fcontent = file1.readlines()
 	except UnicodeDecodeError as e:
 		return None
@@ -323,9 +272,6 @@ def get_entropy(path):
 	else:		
 		entropy = sum(entropies)/len(entropies)
 		return entropy
-
-engineered_features = "Name, ImageBase, FileSize, FileInfo, SectionAlignment, FileAlignment, SizeOfImage"
-engineered_features = proc_raw_features(engineered_features)
 
 def get_engineered_features(label="Malware"):
     if label == "Benign":
@@ -381,16 +327,11 @@ def get_engineered_features(label="Malware"):
 
         return all_data	
 
-# data = get_engineered_features()
-# df = pd.DataFrame(data)
-# df.to_csv("Static_Analysis_Data-Benign-EngineeredFeatures.csv")
+# List of all features to be used
+raw_features = "e_cblp, e_cp, e_cparhdr, e_maxalloc, e_sp, e_lfanew, NumberOfSections, MajorLinkerVersion, MinorLinkerVersion, SizeOfCode,SizeOfInitializedData, SizeOfUninitializedData,AddressOfEntryPoint, BaseOfCode, BaseOfData,MajorOperatingSystemVersion, MinorOperatingSystemVersion,MajorImageVersion, MinorImageVersion, CheckSum,MajorSubsystemVersion, MinorSubsystemVersion,Subsystem,SizeOfStackReserve, SizeOfStackCommit, SizeOfHeapReserve,SizeOfHeapCommit, LoaderFlags"
+# Preprocess raw_features
+raw_features = proc_raw_features(raw_features)
 
-# datam = get_engineered_features_malware()
-# dfm = pd.DataFrame(datam)
-# dfm.to_csv("Static_Analysis_Data-Malware-EngineeredFeatures.csv")
-
-# data = create_csv_malware()
-# df = pd.DataFrame(data)
-# df.to_csv("Static_Analysis_Data-Malware.csv")
-
-
+engineered_features = "Name, ImageBase, FileSize, FileInfo, SectionAlignment, FileAlignment, SizeOfImage"
+# Preprocess engineered features
+engineered_features = proc_raw_features(engineered_features)
