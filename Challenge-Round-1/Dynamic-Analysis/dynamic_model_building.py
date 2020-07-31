@@ -1,7 +1,6 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import plot_confusion_matrix
-from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 import pickle
 import json
@@ -90,9 +89,7 @@ for part in dynamic_root:
 
 df.to_csv('dynamic_dataframe.csv', index=False)
 
-
-le = LabelEncoder()
-df['route'] = le.fit_transform(df['route'])
+df['route'] = df['route'].astype(int)
 df['score'] = df['score'].astype(float)
 df['size'] = df['size'].astype(int)
 df['virus'] = df['virus'].astype(int)
