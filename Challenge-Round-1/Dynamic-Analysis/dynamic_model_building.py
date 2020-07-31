@@ -42,6 +42,10 @@ def dynamic_data_extract(path):
         # Extract source
         try:
             x = data['info']['route']
+            if x == 'none':
+                x = 0
+            else:
+                x = 1
         except:
             print('File route misssing for file {}'.format(path))
             x = 0
