@@ -1,4 +1,9 @@
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import plot_confusion_matrix
+from sklearn.preprocessing import LabelEncoder
 import pandas as pd
+import pickle
 import json
 import os
 
@@ -79,5 +84,23 @@ for part in dynamic_root:
             dataline = dynamic_data_extract(path)
             df = pd.concat([df, dataline])
 
-df.to_csv('dynamic_dataframe.csv')
+df.to_csv('dynamic_dataframe.csv', index=False)
 
+
+le = LabelEncoder()
+df['route'] = le.fit_transform(df['route'])
+df['score'] = df['score'].astype(float)
+df['size'] = df['size'].astype(int)
+df['virus'] = df['virus'].astype(int)
+df['target'] = df['target'].astype(int)
+X = df.drop(['target', 'name'], axis=1)
+y = df['target']
+df.dtypes
+
+X_train, X_valid, y_train, y_valid = train_test_split(X, y)
+
+rfc = RandomForestClassifier(n_estimators=10)
+rfc.fit(X_train, y_train)
+
+model_path = 'dynamic_model.dtc'
+pickle.dump(rfc, open(model_path, 'wb'))
