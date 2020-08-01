@@ -1,0 +1,3 @@
+# CHALLENGE ROUND - 1 
+
+The challenge round 1 features two types of data - static files and dynamic files. Feature extraction and model training was done separately for the types in their respective subdirectories. The final `MalwareDetection.py` file takes the best model trained from these two cases and also uses the same feature extraction functions. These script now iterates through all the files in the test directory and determines if it is a static type or dynamic type. It then passes the files to their respective functions which predict if the file is malware or benign. These are added to a DataFrame which will then be converted to a csv file. The final csv file is named as `submission.csv`.
