@@ -2,7 +2,7 @@
 
 This submission is by team "Python's got ping" by Dwij Mehta (dwij.mehta@gmail.com) and Shanmugha Balan (f20190571@pilani.bits-pilani.ac.in).
 
-The challenge round 2 features a DDoS dataset. Network packet data is captured and presented in the form pcap files. The dataset contains __ pcap files with malicious packets used in a DDoS attack and __ pcap files which contain benign packets. The task is to classify the packets as ones used in a DDoS attack or benign given a pcap file. 
+The challenge round 2 features a DDoS dataset. Network packet data is captured and presented in the form pcap files. The dataset contains 245 IP adresses with malicious packets used in a DDoS attack and 263 IP addresses which sent benign packets. The task is to classify the packets as ones used in a DDoS attack or benign given a pcap file. 
 
 ## Feature Extraction
 Feature extraction was very challenging for the dataset which was very voluminous. The pcap files were composed of millions of packets which made extraction very slow. To this effect, the `dpkt` and `socket` packages were used. This made the training reasonably faster and allowed for extraction of information. Wireshark application was used to visualize the data. The entire pcap file's key information was transferred to a `DataFrame` object. This `DataFrame` was then further processed by grouping columns by Source's IP Address. This allowed us to compress a very huge `DataFrame` into a matter of 10-15 rows. 

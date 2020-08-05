@@ -60,9 +60,14 @@ def main():
 
     X, y = get_training_Data(final_df)
 
+    # Alternative training from the final csv file
+    # cleaned_df = pd.read_csv("FINAL_DATASET.csv")
+    # X = cleaned_df.drop(['target', 'src'], axis=1)
+    # y = cleaned_df['target']
+
     mms = MinMaxScaler()
     X = mms.fit_transform(X)
-
+    pickle.dump(mms, open("mms.pkl", 'wb'))
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 
     svm = SVC()
