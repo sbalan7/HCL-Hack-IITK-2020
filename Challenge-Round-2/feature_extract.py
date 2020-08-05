@@ -116,17 +116,14 @@ def make_data_attack():
         print("Writing to csv.")
         df.to_csv("Attack_data_" + dir + ".csv", index=False)
 
-def proc_pcap_df(df):
-    # Lists all unique source IP addresses
+# Magic Function
+def proc_pcap_df(df, path='', training=False):
     srcs = df["src"].unique()
-
-    # Create time difference between requests column
     df["diff"] = df.timestamp.diff()
     df = df.fillna(0)
     df.drop("timestamp", axis=1, inplace=True)
     data = []
 
-    # Convert UDP protocol as 1 and others as 0
     def conv_proto(proto):
         if proto == "UDP":
             return 1
@@ -135,7 +132,6 @@ def proc_pcap_df(df):
 
     df["proto"] = df["proto"].apply(conv_proto)
     
-    #Iterate over all source IP addresses
     for src in srcs:
         udp_count = df.loc[df["src"] == src].proto.sum()
         total = df.loc[df["src"] == src].proto.count()
@@ -143,7 +139,6 @@ def proc_pcap_df(df):
         temp = df.loc[df["src"] == src]
         temp = temp.fillna(0)
         
-        # Find useful metrics
         stats = temp.describe()
         
         temp = temp.groupby("src").mean()
@@ -167,6 +162,12 @@ def proc_pcap_df(df):
         df.drop("Unnamed: 0", axis=1, inplace=True)
     except KeyError:
         pass
+
+    if training:
+        if 'Attack' in path:
+            df['target'] = [1 for _ in range(len(df))]
+        else:
+            df['target'] = [0 for _ in range(len(df))]
     
     df = df.rename(columns={"len": "avg_packet_len", "diff": "avg_time_diff"})
     return df
