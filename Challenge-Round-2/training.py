@@ -57,7 +57,7 @@ def get_training_Data(df):
 def main():
     final_df = get_csv_data()
 
-    X, y, cleaned_df = get_training_Data(final_df)
+    X, y = get_training_Data(final_df)
 
     mms = MinMaxScaler()
     X = mms.fit_transform(X)
