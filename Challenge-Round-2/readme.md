@@ -35,8 +35,10 @@ The data was split into training and validation data in a 9:1 ratio. The data wa
 For the purpose of this project, the following python packages were used. These packages can be installed with `pip`.
 
 * scikit-learn (`pip install sklearn`)
+* matplotlib (`pip install matplotlib`)
 * pickle (`pip install pickle`)
 * pandas (`pip install pandas`)
 * numpy (`pip install numpy`)
 * dpkt (`pip install dpkt`)
+* sys
 * os 

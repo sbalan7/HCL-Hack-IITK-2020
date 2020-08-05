@@ -8,6 +8,7 @@ import numpy as np
 import pickle
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from feature_extract import proc_pcap_df
+import matplotlib.pyplot as plt
 import os
 import time
 
@@ -70,7 +71,9 @@ def main():
     toc = time.time()
     print('Training took {} seconds'.format(toc-tic))
     svm.score(X_test, y_test)
-    plot_confusion_matrix(svm, X_test, y_test)
+    ax = plot_confusion_matrix(svm, X_test, y_test)
+    ax.set_title('SVM Confusion Matrix')
+    plt.show()
 
     rfc_ = RandomForestClassifier()
     tic = time.time()
@@ -78,7 +81,9 @@ def main():
     toc = time.time()
     print('Training took {} seconds'.format(toc-tic))
     print(rfc_.score(X_test, y_test))
-    plot_confusion_matrix(rfc_, X_test, y_test)
+    ax = plot_confusion_matrix(rfc_, X_test, y_test)
+    ax.set_title('Random Forest Confusion Matrix')
+    plt.show()
 
     pickle.dump(svm, open('magic_fn_svm.svm', 'wb'))
     pickle.dump(rfc_, open('magic_fn_rfc_wo_ip.rfc', 'wb'))
