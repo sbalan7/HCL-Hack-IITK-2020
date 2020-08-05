@@ -3,4 +3,6 @@ import pickle
 import dpkt
 import os
 
-pd.read_csv()
+# extract features
+# load model with pickle
+# predict

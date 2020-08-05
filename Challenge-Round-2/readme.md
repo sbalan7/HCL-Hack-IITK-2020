@@ -29,7 +29,7 @@ This feature is number of UDP requests made by a Source IP address divided by to
 ### Model Selection
 The data was split into training and validation data in a 9:1 ratio. The data was then evaluated through random forest and SVM algorithms. The SVM model trained much faster than the random forest models, but performed worse validation data. Random forests perfectly classify the train and validation data, but the SVM models only attain an accuracy of between 95% to 98% on train and validation. Random Forest models however continue to perform well, and achieve up to 90% accuracy on totally unseen test data.
 
-![Model Selection](https://raw.githubusercontent.com/sbalan7/HCL-Hack-IITK-2020/tree/master/Challenge-Round-2/Images/model_selection.png)
+![Model Selection](https://raw.githubusercontent.com/sbalan7/HCL-Hack-IITK-2020/master/Challenge-Round-2/Images/model_selection.png?token=ANTJ6F7YLWJENVQ4ZD7YFH27GPJME)
 
 
 ### Packages
