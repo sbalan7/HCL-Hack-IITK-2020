@@ -5,7 +5,7 @@ This submission is by team "Python's got ping" by Dwij Mehta (dwij.mehta@gmail.c
 The challenge round 2 features a DDoS dataset. Network packet data is captured and presented in the form pcap files. The dataset contains 245 IP adresses with malicious packets used in a DDoS attack and 263 IP addresses which sent benign packets. The task is to classify the packets as ones used in a DDoS attack or benign given a pcap file. 
 
 ## Feature Extraction
-Feature extraction was very challenging for the dataset which was very voluminous. The pcap files were composed of millions of packets which made extraction very slow. To this effect, the `dpkt` and `socket` packages were used. This made the training reasonably faster and allowed for extraction of information. Wireshark application was used to visualize the data. The entire pcap file's key information was transferred to a `DataFrame` object. This `DataFrame` was then further processed by grouping columns by Source's IP Address. This allowed us to compress a very huge `DataFrame` into a matter of 10-15 rows. 
+Feature extraction was challenging for the dataset which was very voluminous. The pcap files were composed of millions of packets which made extraction very slow. To this effect, the `dpkt` and `socket` packages were used. This made the training reasonably faster and allowed for extraction of information. Wireshark application was used to visualize the data. The entire pcap file's key information was transferred to a `DataFrame` object. This `DataFrame` was then further processed by grouping columns by Source's IP Address. This allowed us to compress a very huge `DataFrame` into a matter of 10-15 rows. This was done in the file `feature_extract.py`.
 
 The following features were then selected for each Source IP Address to act as a feature vector :-
 1. Average Packet Size (avg_packet_len):
@@ -31,13 +31,17 @@ The data was split into training and validation data in a 9:1 ratio. The data wa
 
 ![Model Selection](https://raw.githubusercontent.com/sbalan7/HCL-Hack-IITK-2020/master/Challenge-Round-2/Images/model_selection.png?token=ANTJ6F7YLWJENVQ4ZD7YFH27GPJME)
 
+The models were trained and evaluated in the `training.py` file.
+
 ## Packages
 For the purpose of this project, the following python packages were used. These packages can be installed with `pip`.
 
 * scikit-learn (`pip install sklearn`)
 * matplotlib (`pip install matplotlib`)
+* datetime
 * pickle (`pip install pickle`)
 * pandas (`pip install pandas`)
+* socket (`pip install socket`)
 * numpy (`pip install numpy`)
 * dpkt (`pip install dpkt`)
 * sys

@@ -1,20 +1,22 @@
+from feature_extract import proc_pcap_df, pcap_to_dict
 import pandas as pd
+import datetime
 import pickle
 import socket
 import dpkt
 import sys
 import os
-from feature_extract import proc_pcap_df, pcap_to_dict
-import datetime
 
-# Load the classifier
-path_to_classifier = 'magic_fn_rfc_wo_ip.rfc'
+
+# Load the classifier and scaler
+path_to_classifier = 'Models/magic_fn_rfc_wo_ip.rfc'
+path_to_scaler = 'Models/mms.pkl'
 model = pickle.load(open(path_to_classifier, "rb"))
+mms = pickle.load(open(path_to_scaler, "rb"))
 
 # Read the pcap passed to file
 filename = sys.argv[1]
 f = open(filename, 'rb')
-
 pcap = dpkt.pcap.Reader(f)
 
 # Preprocess data
@@ -23,11 +25,9 @@ df = pd.DataFrame(pcap_dict)
 final_df = proc_pcap_df(df)
 
 # Predict
-mms = pickle.load(open("mms.pkl", "rb"))
 X = final_df.drop(['src'], axis=1)
-
-preds = model.predict(X)
 ips = final_df["src"]
+preds = model.predict(X)
 result = zip(ips, preds)
 
 f.close()

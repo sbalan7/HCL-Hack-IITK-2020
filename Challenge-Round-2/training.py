@@ -1,16 +1,17 @@
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import plot_confusion_matrix
+from feature_extract import proc_pcap_df
+import matplotlib.pyplot as plt
 from sklearn.svm import SVC
 import pandas as pd
 import numpy as np
 import pickle
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-from feature_extract import proc_pcap_df
-import matplotlib.pyplot as plt
-import os
 import time
+import os
+
 
 def get_csv_data():
     files = os.listdir('CSV files')
@@ -60,14 +61,9 @@ def main():
 
     X, y = get_training_Data(final_df)
 
-    # Alternative training from the final csv file
-    # cleaned_df = pd.read_csv("FINAL_DATASET.csv")
-    # X = cleaned_df.drop(['target', 'src'], axis=1)
-    # y = cleaned_df['target']
-
     mms = MinMaxScaler()
     X = mms.fit_transform(X)
-    pickle.dump(mms, open("mms.pkl", 'wb'))
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
 
     svm = SVC()
@@ -90,8 +86,9 @@ def main():
     ax.set_title('Random Forest Confusion Matrix')
     plt.show()
 
-    pickle.dump(svm, open('magic_fn_svm.svm', 'wb'))
-    pickle.dump(rfc_, open('magic_fn_rfc_wo_ip.rfc', 'wb'))
+    pickle.dump(mms, open('Models/mms.pkl', 'wb'))
+    pickle.dump(svm, open('Models/magic_fn_svm.svm', 'wb'))
+    pickle.dump(rfc_, open('Models/magic_fn_rfc_wo_ip.rfc', 'wb'))
 
 if __name__ == "__main__":
     main()

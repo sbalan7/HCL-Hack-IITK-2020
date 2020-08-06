@@ -1,9 +1,10 @@
+import pandas as pd
+import numpy as np
 import datetime
 import socket
 import dpkt
-import numpy as np
-import pandas as pd
 import os
+
 
 def inet_to_str(inet):
     # Convert inet object to a string
@@ -14,7 +15,6 @@ def inet_to_str(inet):
         return socket.inet_ntop(socket.AF_INET6, inet)
 
 def pcap_to_dict(pcap):
-
     # PCAP data list for saving all packets 
     pcap_data = []
     ip_dict = {}
