@@ -1,6 +1,6 @@
 # CHALLENGE ROUND - 1 
 
-This submission is by team "Python's got ping" by Dwij Mehta (dwij.mehta@gmail.com) and Shanmugha Balan (f20190571@pilani.bits-pilani.ac.in).
+This submission is by team "Python's got ping" by [Dwij Mehta](https://github.com/dwij2212) and [Shanmugha Balan](https://github.com/sbalan7).
 
 
 # Used Libraries

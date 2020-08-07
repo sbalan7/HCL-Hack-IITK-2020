@@ -1,6 +1,6 @@
 # CHALLENGE ROUND - 2
 
-This submission is by team "Python's got ping" by Dwij Mehta (dwij.mehta@gmail.com) and Shanmugha Balan (f20190571@pilani.bits-pilani.ac.in).
+This submission is by team "Python's got ping" by [Dwij Mehta](https://github.com/dwij2212) and [Shanmugha Balan](https://github.com/sbalan7).
 
 The challenge round 2 features a DDoS dataset. Network packet data is captured and presented in the form pcap files. The dataset contains 245 IP adresses performing a DDoS attack and 263 IP addresses which was a part of normal traffic. The task is to classify the packets as ones used in a DDoS attack or benign given a pcap file. 
 
