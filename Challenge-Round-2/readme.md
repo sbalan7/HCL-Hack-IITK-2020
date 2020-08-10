@@ -29,7 +29,7 @@ This feature represents the number of unique Destination IP addresses a Source I
 This feature is number of UDP requests made by a Source IP address divided by total number of requests made by that particular Source IP address. This was included in the `DataFrame` because it was found that `percent_udp` for DDOS attacks was higher than `percent_udp` for normal traffic.
 
 ## Model Selection
-The data was split into training and validation data in a 9:1 ratio. The data was then evaluated through random forest and SVM algorithms. The SVM model trained much faster than the random forest models, but performed worse on validation data. Random forests perfectly classify the train and validation data, but the SVM models only attain an accuracy of 70% - 75% on train and validation. Random Forest models however continue to perform well, and achieve up to 90% accuracy on totally unseen test data.
+The data was split into training and validation data in a 9:1 ratio. The data was then evaluated through random forest and SVM algorithms. The SVM model trained much faster than the random forest models, but performed worse on validation data. Random forests perfectly classify the train and validation data, but the SVM models only attain an accuracy of 90% - 95% on train and validation. Random Forest models continue to perform well even on unseen test data where they go on to achieve up to 90% accuracy, compared to SVMs with 75% accuracy.
 
 ![Model Selection](https://raw.githubusercontent.com/sbalan7/HCL-Hack-IITK-2020/master/Challenge-Round-2/Images/model_selection.png?token=ANTJ6F7YLWJENVQ4ZD7YFH27GPJME)
 
